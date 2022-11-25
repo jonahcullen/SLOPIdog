@@ -1,0 +1,72 @@
+{
+    "pile_dogs_subset" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/%j.{rule}.err"
+    },
+    "zip_and_index_subset" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/%j.{rule}.err"
+    },
+    "extract_sample_vcfs" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.sample}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.sample}/%j.{rule}.err"
+    },
+    "pairwise_bcftools" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.wga}_{wildcards.nowga}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.wga}_{wildcards.nowga}/%j.{rule}.err"
+    },
+    "pairwise_gatk" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.wga}_{wildcards.nowga}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.wga}_{wildcards.nowga}/%j.{rule}.err"
+    },
+    "pile_dogs" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.err"
+    },
+    "filter_snps" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.err"
+    },
+    "zip_and_index" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.err"
+    },
+    "split_phased_cf3" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.err"
+    },
+    "beagle40_impute" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.err"
+    },
+    "combine_imputed" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/%j.{rule}.err"
+    },
+    "filter_imputed" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/%j.{rule}.err"
+    },
+    "extract_imputed_vcfs" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.sample}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.sample}/%j.{rule}.err"
+    },
+    "pairwise_imputed_gatk" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.wga}_{wildcards.nowga}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.wga}_{wildcards.nowga}/%j.{rule}.err"
+    },
+}
