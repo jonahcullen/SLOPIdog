@@ -1,10 +1,18 @@
 
-sif: /home/fried255/cull0084/.sif/slopi.sif
+sif: /path/to/slopi.sif
+
+breeds:
+# - all
+  - belgians
+  - gshp
+  - gtdn
+  - stpd_pwdg
+  - wssp
 
 refgen:
-    cf3 : /home/refgen/dog/canfam3/canFam3.fa
-    cf4 : /home/refgen/dog/canfam4/canFam4.fa
+  cf4: /home/refgen/dog/canfam4/canFam4.fa
 
 phased:
-    cf3 : /panfs/jay/groups/0/fried255/fried255/working/pipeline/canfam3/20220401/joint_genotype.canfam3.snps.phased.vcf.gz
-    cf4 : /panfs/jay/groups/0/fried255/fried255/working/pipeline/canfam4/20220401/joint_genotype.canfam4.snps.phased.vcf.gz
+  cf4: /path/to/phased_snps_ref.vcf.gz
+
+link_map: /home/refgen/dog/canfam4/canFam4.linkage.map

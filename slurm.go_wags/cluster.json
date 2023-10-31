@@ -34,20 +34,35 @@
         "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.out",
         "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.err"
     },
+    "phase_x_chrom" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.err"
+    },
     "zip_and_index" :
     {
         "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.out",
         "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.err"
     },
-    "split_phased_cf3" :
+    "split_phased_ref" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.err"
+    },
+    "beagle54_impute" :
     {
         "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.out",
         "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.err"
     },
     "beagle40_impute" :
     {
-        "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.out",
-        "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.err"
+        "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.breed}/{wildcards.chrom}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.breed}/{wildcards.chrom}/%j.{rule}.err"
+    },
+    "imputed_list" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.breed}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.breed}/%j.{rule}.err"
     },
     "combine_imputed" :
     {
@@ -68,5 +83,35 @@
     {
         "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.wga}_{wildcards.nowga}/%j.{rule}.out",
         "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.wga}_{wildcards.nowga}/%j.{rule}.err"
+    },
+    "split_phased_gshp" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/%j.{rule}.err"
+    },
+    "beagle40_impute_gshp_chr24" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/%j.{rule}.err"
+    },
+    "filter_imputed_gshp" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/%j.{rule}.err"
+    },
+    "split_phased_gtdn" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/%j.{rule}.err"
+    },
+    "beagle40_impute_gtdn_chr25" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/%j.{rule}.err"
+    },
+    "filter_imputed_gtdn" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/%j.{rule}.err"
     },
 }
