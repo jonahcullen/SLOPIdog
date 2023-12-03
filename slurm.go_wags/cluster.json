@@ -74,6 +74,11 @@
         "output" : ".logs/{rule}/{wildcards.ref}/%j.{rule}.out",
         "error"  : ".logs/{rule}/{wildcards.ref}/%j.{rule}.err"
     },
+    "gb_index_vcf" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.breed}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.breed}/%j.{rule}.err"
+    },
     "extract_imputed_vcfs" :
     {
         "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.sample}/%j.{rule}.out",
@@ -83,6 +88,26 @@
     {
         "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.wga}_{wildcards.nowga}/%j.{rule}.out",
         "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.wga}_{wildcards.nowga}/%j.{rule}.err"
+    },
+    "split_phased_caravaggio_ref" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.err"
+    },
+    "beagle40_impute_gl" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.err"
+    },
+    "filter_imputed_caravaggio" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.err"
+    },
+    "filter_imputed_wakame" :
+    {
+        "output" : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.out",
+        "error"  : ".logs/{rule}/{wildcards.ref}/{wildcards.chrom}/%j.{rule}.err"
     },
     "split_phased_gshp" :
     {

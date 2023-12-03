@@ -191,4 +191,24 @@ rule filter_imputed:
 
             tabix -p vcf {output.filt_vcf}
         '''
-    
+
+rule gb_index_vcf:
+    input:
+        filt_vcf = "results/{ref}/vcf/{breed}/combine/{breed}.fltr_wakame_imputed.snps.{ref}.20231018.vcf.gz",
+        filt_tbi = "results/{ref}/vcf/{breed}/combine/{breed}.fltr_wakame_imputed.snps.{ref}.20231018.vcf.gz.tbi",
+    output:
+        vcf_covtsf = "results/{ref}/vcf/{breed}/combine/{breed}.fltr_wakame_imputed.snps.{ref}.20231018.vcf.gz.covtsf",
+    params:
+        ref_dir = os.path.dirname(config['refgen']['cf4']),
+    threads: 4
+    resources:
+        time   = 480,
+        mem_mb = 12000
+    shell:
+        '''
+            gautil coverage \
+                {input.filt_vcf} \
+                --refFolder={params.ref_dir}
+        '''
+
+
