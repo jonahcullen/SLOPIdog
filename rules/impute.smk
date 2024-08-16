@@ -1,12 +1,10 @@
 
 rule split_phased_ref:
     output:
-        ref_vcf = "results/{ref}/wakame_pop/{chrom}/joint_genotype.{ref}.snps.{chrom}.vcf.gz",
-        ref_tbi = "results/{ref}/wakame_pop/{chrom}/joint_genotype.{ref}.snps.{chrom}.vcf.gz.tbi"
+        ref_vcf = "results/{ref}/ref/{chrom}/joint_genotype.{ref}.snps.{chrom}.vcf.gz",
+        ref_tbi = "results/{ref}/ref/{chrom}/joint_genotype.{ref}.snps.{chrom}.vcf.gz.tbi"
     params:
-       #phased_pop = lambda wildcards, input: config['phased'][wildcards.ref]
-       #phased_pop = "/panfs/jay/groups/0/fried255/shared/gatk4_workflow/LowPass/SlimRef/subset_ref.phased.vcf.gz"
-        phased_pop = "/panfs/jay/groups/0/fried255/shared/gatk4_workflow/LowPass/SlimRef/wakame_ref.phased.vcf.gz"
+        phased_pop = lambda wildcards, input: config['refgen'][wildcards.ref]['phased']
     threads: 4
     resources:
         time   = 1440,
@@ -21,58 +19,15 @@ rule split_phased_ref:
             tabix -p vcf {output.ref_vcf}
         '''
 
-#rule beagle54_impute:
-#    input:
-#       #snps_vcf  = "results/{ref}/vcf/{chrom}/all_lowpass.snps.{chrom}.{ref}.vcf.gz",
-#       #snps_vcf = "results/{ref}/vcf/{chrom}/all_lowpass.snps.{chrom}.{ref}.vcf.gz.tbi",
-#        phase_vcf = "results/{ref}/vcf/{chrom}/{breed}.snps.phased.{chrom}.{ref}.vcf.gz",
-#        phase_tbi = "results/{ref}/vcf/{chrom}/{breed}.snps.phased.{chrom}.{ref}.vcf.gz.tbi",
-#        ref_vcf   = "results/{ref}/cyrano_pop/{chrom}/joint_genotype.{ref}.snps.{chrom}.vcf.gz",
-#        ref_tbi   = "results/{ref}/cyrano_pop/{chrom}/joint_genotype.{ref}.snps.{chrom}.vcf.gz.tbi"
-#       #phase_vcf    = "results/{ref}/vcf/{chrom}/all_lowpass.snps.phased.{chrom}.{ref}.vcf.gz",
-#       #phase_tbi    = "results/{ref}/vcf/{chrom}/all_lowpass.snps.phased.{chrom}.{ref}.vcf.gz.tbi",
-#       #phased_chrom = "results/{ref}/pop/{chrom}/joint_genotype.{ref}.snps.{chrom}.vcf.gz",
-#       #phased_tbi   = "results/{ref}/pop/{chrom}/joint_genotype.{ref}.snps.{chrom}.vcf.gz.tbi"
-#    output:
-#       #imputed_vcf = "results/{ref}/vcf/{chrom}/all_lowpass.TEST_imputed.snps.{chrom}.{ref}.vcf.gz",
-#       #imputed_tbi = "results/{ref}/vcf/{chrom}/all_lowpass.TEST_imputed.snps.{chrom}.{ref}.vcf.gz.tbi",
-#        imputed_vcf = "results/{ref}/vcf/{chrom}/{breed}.cyrano_beagle5_burn12_imputed.snps.{chrom}.{ref}.vcf.gz",
-#        imputed_tbi = "results/{ref}/vcf/{chrom}/{breed}.cyrano_beagle5_burn12_imputed.snps.{chrom}.{ref}.vcf.gz.tbi",
-#    params:
-#        link_map = config["link_map"],
-#        prefix   = lambda wildcards, output: output.imputed_vcf.rsplit(".",2)[0]
-#    threads: 24
-#    resources:
-#        time   = 2880,
-#        mem_mb = 248000
-#    shell:
-#        '''
-#            java -Xms10g -Xmx220g -jar /opt/slopi/src/beagle5/beagle.22Jul22.46e.jar \
-#                gt={input.phase_vcf} \
-#                ref={input.phased_chrom} \
-#                map={params.link_map} \
-#                nthreads={threads} \
-#                impute=true \
-#                window=40.0 \
-#                overlap=2.0 \
-#                burnin=12 \
-#                iterations=12 \
-#                out={params.prefix}
-#
-#            tabix -p vcf {params.prefix}.vcf.gz
-#        '''
-
 rule beagle40_impute:
     input:
-       #phase_vcf = "results/{ref}/vcf/{breed}/{chrom}/{breed}.snps.phased.{chrom}.{ref}.vcf.gz",
-       #phase_tbi = "results/{ref}/vcf/{breed}/{chrom}/{breed}.snps.phased.{chrom}.{ref}.vcf.gz.tbi",
-        snps_vcf = "results/{ref}/vcf/{breed}/{chrom}/{breed}.snps.{chrom}.{ref}.vcf.gz",
-        snps_tbi = "results/{ref}/vcf/{breed}/{chrom}/{breed}.snps.{chrom}.{ref}.vcf.gz.tbi",
-        ref_vcf   = "results/{ref}/wakame_pop/{chrom}/joint_genotype.{ref}.snps.{chrom}.vcf.gz",
-        ref_tbi   = "results/{ref}/wakame_pop/{chrom}/joint_genotype.{ref}.snps.{chrom}.vcf.gz.tbi"
+        snps_vcf = "results/{ref}/target/{breed}/{chrom}/{breed}.snps.{chrom}.{ref}.vcf.gz",
+        snps_tbi = "results/{ref}/target/{breed}/{chrom}/{breed}.snps.{chrom}.{ref}.vcf.gz.tbi",
+        ref_vcf   = "results/{ref}/ref/{chrom}/joint_genotype.{ref}.snps.{chrom}.vcf.gz",
+        ref_tbi   = "results/{ref}/ref/{chrom}/joint_genotype.{ref}.snps.{chrom}.vcf.gz.tbi"
     output:
-        imputed_vcf = "results/{ref}/vcf/{breed}/{chrom}/{breed}.wakame_imputed.snps.{chrom}.{ref}.vcf.gz",
-        imputed_tbi = "results/{ref}/vcf/{breed}/{chrom}/{breed}.wakame_imputed.snps.{chrom}.{ref}.vcf.gz.tbi",
+        imputed_vcf = "results/{ref}/impute/{breed}/{chrom}/{breed}.imputed.snps.{chrom}.{ref}.vcf.gz",
+        imputed_tbi = "results/{ref}/impute/{breed}/{chrom}/{breed}.imputed.snps.{chrom}.{ref}.vcf.gz.tbi",
     params:
         prefix = lambda wildcards, output: output.imputed_vcf.rsplit(".",2)[0]
     threads: 24
@@ -95,16 +50,15 @@ rule beagle40_impute:
             tabix -p vcf {params.prefix}.vcf.gz
         '''
 
-# TEMPORARY ADDITION FOR QUICK CHECK
-rule filter_imputed_wakame:
+# generates per chromosome imputed and now filtered vcfs but
+# is not technically necessary
+rule filter_imputed:
     input:
-       #sorted_vcf = "results/{ref}/vcf/{breed}/combine/{breed}.cyrano_imputed.snps.{ref}.vcf.gz",
-       #sorted_tbi = "results/{ref}/vcf/{breed}/combine/{breed}.cyrano_imputed.snps.{ref}.vcf.gz.tbi",
-        imputed_vcf = "results/{ref}/vcf/{breed}/{chrom}/{breed}.wakame_imputed.snps.{chrom}.{ref}.vcf.gz",
-        imputed_tbi = "results/{ref}/vcf/{breed}/{chrom}/{breed}.wakame_imputed.snps.{chrom}.{ref}.vcf.gz.tbi",
+        imputed_vcf = "results/{ref}/impute/{breed}/{chrom}/{breed}.imputed.snps.{chrom}.{ref}.vcf.gz",
+        imputed_tbi = "results/{ref}/impute/{breed}/{chrom}/{breed}.imputed.snps.{chrom}.{ref}.vcf.gz.tbi",
     output:
-        filt_vcf = "results/{ref}/vcf/{breed}/{chrom}/{breed}.fltr_wakame_imputed.snps.{chrom}.{ref}.vcf.gz",
-        filt_tbi = "results/{ref}/vcf/{breed}/{chrom}/{breed}.fltr_wakame_imputed.snps.{chrom}.{ref}.vcf.gz.tbi",
+        filt_vcf = "results/{ref}/impute/{breed}/{chrom}/{breed}.fltr_imputed.snps.{chrom}.{ref}.vcf.gz",
+        filt_tbi = "results/{ref}/impute/{breed}/{chrom}/{breed}.fltr_imputed.snps.{chrom}.{ref}.vcf.gz.tbi",
     threads: 4
     resources:
         time   = 60,
@@ -122,16 +76,14 @@ rule filter_imputed_wakame:
 rule imputed_list:
     input:
         imputed_vcfs = sorted(expand(
-            "results/{ref}/vcf/{breed}/{chrom}/{breed}.wakame_imputed.snps.{chrom}.{ref}.vcf.{ext}",
-            ref=REFS,
+            "results/{ref}/impute/{breed}/{chrom}/{breed}.imputed.snps.{chrom}.{ref}.vcf.{ext}",
+            ref=config['refs'],
             chrom=[f"chr{i}" for i in range(1,39)] + ["chrX"], # NO CHROM M OR Y
             ext=["gz","gz.tbi"],
             breed=config["breeds"]
-           #breed="stpd_pwdg"
         ))
     output:
-       #sorted_list = "results/{ref}/vcf/combine/imputed.list",
-        sorted_list = "results/{ref}/vcf/{breed}/combine/wakame_{breed}_imputed.list",
+        sorted_list = "results/{ref}/impute/{breed}/combine/{breed}_imputed.list",
     threads: 1
     resources:
         time   = 20,
@@ -154,10 +106,10 @@ rule imputed_list:
 
 rule combine_imputed:
     input:
-        sorted_list = "results/{ref}/vcf/{breed}/combine/wakame_{breed}_imputed.list",
+        sorted_list = "results/{ref}/impute/{breed}/combine/breed}_imputed.list",
     output:
-        sorted_vcf = "results/{ref}/vcf/{breed}/combine/{breed}.wakame_imputed.snps.{ref}.vcf.gz",
-        sorted_tbi = "results/{ref}/vcf/{breed}/combine/{breed}.wakame_imputed.snps.{ref}.vcf.gz.tbi",
+        sorted_vcf = "results/{ref}/impute/{breed}/combine/{breed}.imputed.snps.{ref}.vcf.gz",
+        sorted_tbi = "results/{ref}/impute/{breed}/combine/{breed}.imputed.snps.{ref}.vcf.gz.tbi",
     threads: 4
     resources:
         time   = 480,
@@ -173,11 +125,11 @@ rule combine_imputed:
 
 rule filter_imputed:
     input:
-        sorted_vcf = "results/{ref}/vcf/{breed}/combine/{breed}.wakame_imputed.snps.{ref}.vcf.gz",
-        sorted_tbi = "results/{ref}/vcf/{breed}/combine/{breed}.wakame_imputed.snps.{ref}.vcf.gz.tbi",
+        sorted_vcf = "results/{ref}/impute/{breed}/combine/{breed}.imputed.snps.{ref}.vcf.gz",
+        sorted_tbi = "results/{ref}/impute/{breed}/combine/{breed}.imputed.snps.{ref}.vcf.gz.tbi",
     output:
-        filt_vcf = "results/{ref}/vcf/{breed}/combine/{breed}.fltr_wakame_imputed.snps.{ref}.20231018.vcf.gz",
-        filt_tbi = "results/{ref}/vcf/{breed}/combine/{breed}.fltr_wakame_imputed.snps.{ref}.20231018.vcf.gz.tbi",
+        filt_vcf = "results/{ref}/impute/{breed}/combine/{breed}.dr2_fltr_imputed.snps.{ref}.{date}.vcf.gz",
+        filt_tbi = "results/{ref}/impute/{breed}/combine/{breed}.dr2_fltr_imputed.snps.{ref}.{date}.vcf.gz.tbi",
     threads: 4
     resources:
         time   = 60,
@@ -194,12 +146,12 @@ rule filter_imputed:
 
 rule gb_index_vcf:
     input:
-        filt_vcf = "results/{ref}/vcf/{breed}/combine/{breed}.fltr_wakame_imputed.snps.{ref}.20231018.vcf.gz",
-        filt_tbi = "results/{ref}/vcf/{breed}/combine/{breed}.fltr_wakame_imputed.snps.{ref}.20231018.vcf.gz.tbi",
+        filt_vcf = "results/{ref}/impute/{breed}/combine/{breed}.dr2_fltr_imputed.snps.{ref}.{date}.vcf.gz",
+        filt_tbi = "results/{ref}/impute/{breed}/combine/{breed}.dr2_fltr_imputed.snps.{ref}.{date}.vcf.gz.tbi",
     output:
-        vcf_covtsf = "results/{ref}/vcf/{breed}/combine/{breed}.fltr_wakame_imputed.snps.{ref}.20231018.vcf.gz.covtsf",
+        vcf_covtsf = "results/{ref}/impute/{breed}/combine/{breed}.dr2_fltr_imputed.snps.{ref}.{date}.vcf.gz.covtsf",
     params:
-        ref_dir = os.path.dirname(config['refgen']['cf4']),
+        ref_dir = lambda wildcards, input: os.path.dirname(config['refgen'][wildcards.ref]['fasta'])
     threads: 4
     resources:
         time   = 480,

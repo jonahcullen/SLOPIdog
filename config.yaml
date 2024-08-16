@@ -1,5 +1,9 @@
 
 sif: /path/to/slopi.sif
+refs: cf4
+# this file should contain the absolute paths to the bams/crams
+# to be used for imputation
+bam_list: /path/to/bams.list
 
 breeds:
 # - all
@@ -10,9 +14,14 @@ breeds:
   - wssp
 
 refgen:
-  cf4: /home/refgen/dog/canfam4/canFam4.fa
+  cf4:
+    name: cf4
+    fasta: /home/refgen/dog/canfam4/canFam4.fa
+    phased_pop: /path/to/phased.vcf
 
 phased:
   cf4: /path/to/phased_snps_ref.vcf.gz
 
-link_map: /home/refgen/dog/canfam4/canFam4.linkage.map
+# canfan4 link map in container
+link_map: 
+  cf4: /home/refgen/dog/canfam4/canFam4.linkage.map
