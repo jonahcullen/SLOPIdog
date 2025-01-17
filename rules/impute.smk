@@ -1,8 +1,8 @@
 
 rule split_phased_ref:
     output:
-        ref_vcf = "results/{ref}/ref/{chrom}/joint_genotype.{ref}.snps.{chrom}.vcf.gz",
-        ref_tbi = "results/{ref}/ref/{chrom}/joint_genotype.{ref}.snps.{chrom}.vcf.gz.tbi"
+        ref_vcf = "results/{ref}/ref/{chrom}/merseberg.{ref}.snps.{chrom}.vcf.gz",
+        ref_tbi = "results/{ref}/ref/{chrom}/merseberg.{ref}.snps.{chrom}.vcf.gz.tbi"
     params:
         phased_pop = lambda wildcards, input: config['refgen'][wildcards.ref]['phased']
     threads: 4
@@ -23,8 +23,8 @@ rule beagle40_impute:
     input:
         snps_vcf = "results/{ref}/target/{breed}/{chrom}/{breed}.snps.{chrom}.{ref}.vcf.gz",
         snps_tbi = "results/{ref}/target/{breed}/{chrom}/{breed}.snps.{chrom}.{ref}.vcf.gz.tbi",
-        ref_vcf   = "results/{ref}/ref/{chrom}/joint_genotype.{ref}.snps.{chrom}.vcf.gz",
-        ref_tbi   = "results/{ref}/ref/{chrom}/joint_genotype.{ref}.snps.{chrom}.vcf.gz.tbi"
+        ref_vcf   = "results/{ref}/ref/{chrom}/merseberg.{ref}.snps.{chrom}.vcf.gz",
+        ref_tbi   = "results/{ref}/ref/{chrom}/merseberg.{ref}.snps.{chrom}.vcf.gz.tbi"
     output:
         imputed_vcf = "results/{ref}/impute/{breed}/{chrom}/{breed}.imputed.snps.{chrom}.{ref}.vcf.gz",
         imputed_tbi = "results/{ref}/impute/{breed}/{chrom}/{breed}.imputed.snps.{chrom}.{ref}.vcf.gz.tbi",
@@ -162,5 +162,4 @@ rule gb_index_vcf:
                 {input.filt_vcf} \
                 --refFolder={params.ref_dir}
         '''
-
 
