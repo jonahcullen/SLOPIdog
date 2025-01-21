@@ -5,20 +5,23 @@ refs: cf4
 # to be used for imputation
 bam_list: /path/to/bams.list
 
+# logic for glimpse does not consider breed as of now
 breeds:
-# - all
-  - belgians
-  - gshp
-  - gtdn
-  - stpd_pwdg
-  - wssp
+  - all
+#  - belgians
+#  - gshp
+#  - gtdn
+#  - stpd_pwdg
+#  - wssp
 
 refgen:
   cf4:
     name: cf4
     fasta: /home/refgen/dog/canfam4/canFam4.fa
+    # phased reference for imputation
     phased_pop: /path/to/phased.vcf
 
+# where is this even used ever?
 phased:
   cf4: /path/to/phased_snps_ref.vcf.gz
 

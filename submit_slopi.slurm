@@ -13,7 +13,7 @@
 
 set -e
 
-conda activate snake718
+conda activate snakemake
 cd $SLURM_SUBMIT_DIR
 
 BAM_DIR=/scratch.global/friedlab_LOW_PILEUP
