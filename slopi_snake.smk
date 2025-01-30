@@ -22,12 +22,15 @@ rule all:
         #     date=config['date'],
         # )
         # I think this should work to target just the glimpse side of things and ignore everything else
-        phased_glimpse_imputed = "results/glimpse/{ref}/{ref}.glimpse_imputed.filtered.phased.vcf.gz"
+        # phased_glimpse_imputed = expand("results/glimpse/{ref}/{ref}.glimpse_imputed.filtered.phased.vcf.gz", ref = "cf4")
+        glimpse_stages = expand("results/glimpse/{ref}/{ref}.{stage}.glimpse_imputed.vcf.gz",
+            ref = config['refs'],
+            stage = ["unfiltered", "filtered", "phased"])
 
 # NOTE the discrep between ref UU_Cfam for phasing and cf4 for genotyping/imputing
 # NEED TO COMBINE THESE SENSIBILY BEFORE RE-PREPARING/PHASING THE WHOLE
 # MERSEBERG PANEL
 #include: "rules/phasing.merseberg.smk"
 include: "rules/genotype.smk"
-include: "rules/impute.smk"
-
+# include: "rules/impute.smk"
+include: "rules/glimpse_process.smk"

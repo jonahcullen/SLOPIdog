@@ -3,13 +3,13 @@ rule pile_dogs:
     input:
         bam_list = config['bam_list']
     output:
-        lowpass_vcf = "results/{ref}/target/{breed}/{chrom}/{breed}.{chrom}.{ref}.vcf",
+        lowpass_vcf = "results/{ref}/target/all/{chrom}/all.{chrom}.{ref}.vcf",
     params:
         ref_fa = lambda wildcards, input: config['refgen'][wildcards.ref]['fasta']
     threads: 4
     resources:
-        time   = 1440,
-        mem_mb = 60000
+        time   = 4320,
+        mem_mb = 120000
     shell:
         '''
             bcftools mpileup \
@@ -23,14 +23,14 @@ rule pile_dogs:
 
 rule zip_and_index:
     input:
-        lowpass_vcf = "results/{ref}/target/{breed}/{chrom}/{breed}.{chrom}.{ref}.vcf",
+        lowpass_vcf = "results/{ref}/target/all/{chrom}/all.{chrom}.{ref}.vcf",
     output:
-        lowpass_vcf = "results/{ref}/target/{breed}/{chrom}/{breed}.{chrom}.{ref}.vcf.gz",
-        lowpass_tbi = "results/{ref}/target/{breed}/{chrom}/{breed}.{chrom}.{ref}.vcf.gz.tbi",
+        lowpass_vcf = "results/{ref}/target/all/{chrom}/all.{chrom}.{ref}.vcf.gz",
+        lowpass_tbi = "results/{ref}/target/all/{chrom}/all.{chrom}.{ref}.vcf.gz.tbi",
     threads: 6
     resources:
-        time   = 720,
-        mem_mb = 12000
+        time   = 2880,
+        mem_mb = 48000
     shell:
         '''
             bgzip --threads {threads} -c {input.lowpass_vcf} > {output.lowpass_vcf}
@@ -39,15 +39,15 @@ rule zip_and_index:
 
 rule filter_snps:
     input:
-        lowpass_vcf = "results/{ref}/target/{breed}/{chrom}/{breed}.{chrom}.{ref}.vcf.gz",
-        lowpass_tbi = "results/{ref}/target/{breed}/{chrom}/{breed}.{chrom}.{ref}.vcf.gz.tbi",
+        lowpass_vcf = "results/{ref}/target/all/{chrom}/all.{chrom}.{ref}.vcf.gz",
+        lowpass_tbi = "results/{ref}/target/all/{chrom}/all.{chrom}.{ref}.vcf.gz.tbi",
     output:
-        snps_vcf = "results/{ref}/target/{breed}/{chrom}/{breed}.snps.{chrom}.{ref}.vcf.gz",
-        snps_tbi = "results/{ref}/target/{breed}/{chrom}/{breed}.snps.{chrom}.{ref}.vcf.gz.tbi",
+        snps_vcf = "results/{ref}/target/all/{chrom}/all.snps.{chrom}.{ref}.vcf.gz",
+        snps_tbi = "results/{ref}/target/all/{chrom}/all.snps.{chrom}.{ref}.vcf.gz.tbi",
     threads: 4
     resources:
-        time   = 1440,
-        mem_mb = 60000
+        time   = 2880,
+        mem_mb = 120000
     shell:
         '''
             bcftools view \

@@ -52,26 +52,26 @@ rule beagle40_impute:
 
 # generates per chromosome imputed and now filtered vcfs but
 # is not technically necessary
-rule filter_imputed:
-    input:
-        imputed_vcf = "results/{ref}/impute/{breed}/{chrom}/{breed}.imputed.snps.{chrom}.{ref}.vcf.gz",
-        imputed_tbi = "results/{ref}/impute/{breed}/{chrom}/{breed}.imputed.snps.{chrom}.{ref}.vcf.gz.tbi",
-    output:
-        filt_vcf = "results/{ref}/impute/{breed}/{chrom}/{breed}.fltr_imputed.snps.{chrom}.{ref}.vcf.gz",
-        filt_tbi = "results/{ref}/impute/{breed}/{chrom}/{breed}.fltr_imputed.snps.{chrom}.{ref}.vcf.gz.tbi",
-    threads: 4
-    resources:
-        time   = 60,
-        mem_mb = 24000
-    shell:
-        '''
-            bcftools filter \
-                -i 'INFO/DR2[*] >= 0.8' \
-                -Oz -o {output.filt_vcf} \
-                {input.imputed_vcf}
+# rule filter_imputed:
+#     input:
+#         imputed_vcf = "results/{ref}/impute/{breed}/{chrom}/{breed}.imputed.snps.{chrom}.{ref}.vcf.gz",
+#         imputed_tbi = "results/{ref}/impute/{breed}/{chrom}/{breed}.imputed.snps.{chrom}.{ref}.vcf.gz.tbi",
+#     output:
+#         filt_vcf = "results/{ref}/impute/{breed}/{chrom}/{breed}.fltr_imputed.snps.{chrom}.{ref}.vcf.gz",
+#         filt_tbi = "results/{ref}/impute/{breed}/{chrom}/{breed}.fltr_imputed.snps.{chrom}.{ref}.vcf.gz.tbi",
+#     threads: 4
+#     resources:
+#         time   = 60,
+#         mem_mb = 24000
+#     shell:
+#         '''
+#             bcftools filter \
+#                 -i 'INFO/DR2[*] >= 0.8' \
+#                 -Oz -o {output.filt_vcf} \
+#                 {input.imputed_vcf}
 
-            tabix -p vcf {output.filt_vcf}
-        '''
+#             tabix -p vcf {output.filt_vcf}
+#         '''
 
 rule imputed_list:
     input:
