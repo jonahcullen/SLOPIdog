@@ -8,7 +8,19 @@ Due to the size of the included canine reference genomes and index files (and de
 singularity pull docker://hexive/slopi:2.0
 ```
 
-To run the pipeline, update:
+**Required inputs**
+A .txt list of the absolute paths of the lowpass bams to impute, one file per line
+
+A linkage map for your reference genome (see linkage map found at /home/refgen/dog/canfam4/canFam4.linkage.map in the container for a working example)
+
+A reference genome (.fa) with a .fai index
+
+A .vcf.gz phased reference panel with a tabix (.tbi) index
+
+If using canFam4, the linkage map and .fa are optional
+
+**To run the pipeline, update the fields in:**
+
 config.yaml: 
     all relevant file locations, as well as the desired contigs in their desired order.
 
