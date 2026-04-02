@@ -84,14 +84,14 @@ rule split_reference:
 rule impute_chunk:
     input:
         binary_ref = "results/glimpse/{ref}/{chrom}/split/binary_ref.{ref}.{chrom}.{chunk_id}.bin",
-        target_vcf = "results/{ref}/target/all/{chrom}/all.snps.{chrom}.{ref}.vcf.gz",
-        target_vcf_index = "results/{ref}/target/all/{chrom}/all.snps.{chrom}.{ref}.vcf.gz.tbi"
+        bam_list = config['bam_list']
     output:
         imputed_chunk = temp("results/glimpse/{ref}/{chrom}/imputed/imputed.{ref}.{chrom}.{chunk_id}.bcf"),
         imputed_chunk_index = temp("results/glimpse/{ref}/{chrom}/imputed/imputed.{ref}.{chrom}.{chunk_id}.bcf.csi")
     params:
         input_region = lambda wildcards: parse_chunks(f"results/glimpse/{wildcards.ref}/{wildcards.chrom}/chunks.{wildcards.ref}.{wildcards.chrom}.tsv")[wildcards.chunk_id][0],
         output_region = lambda wildcards: parse_chunks(f"results/glimpse/{wildcards.ref}/{wildcards.chrom}/chunks.{wildcards.ref}.{wildcards.chrom}.tsv")[wildcards.chunk_id][1],
+        ref_fa = lambda wildcards, input: config['refgen'][wildcards.ref]['fasta']
     threads: 8
     resources:
         time = 240,
@@ -99,8 +99,9 @@ rule impute_chunk:
     shell:
         '''
             GLIMPSE2_phase \
-                --input-gl {input.target_vcf} \
+                --bam-list {input.bam_list} \
                 --reference {input.binary_ref} \
+                --fasta {params.ref_fa} \
                 --impute-reference-only-variants \
                 --threads {threads} \
                 --output {output.imputed_chunk}
