@@ -108,7 +108,7 @@ rule impute_chunk:
 
 rule ligate_single_chrom:
     input:
-        imputed_chunks = lambda wildcards: expand("results/glimpse/{ref}/{chrom}/imputed/imputed.{ref}.{chrom}.{chunk_id}.bcf", ref=wildcards.ref, chrom=wildcards.chrom, chunk_id=get_chunk_ids(wildcards))
+        imputed_chunks = lambda wildcards: expand("results/glimpse/{ref}/{chrom}/imputed/imputed.{ref}.{chrom}.{chunk_id}.bcf", ref=wildcards.ref, chrom=wildcards.chrom, chunk_id=get_chunk_ids(wildcards)),
         imputed_chunk_index = lambda wildcards: expand("results/glimpse/{ref}/{chrom}/imputed/imputed.{ref}.{chrom}.{chunk_id}.bcf.csi", ref=wildcards.ref, chrom=wildcards.chrom, chunk_id=get_chunk_ids(wildcards))
     output:
         ligated = "results/glimpse/{ref}/{chrom}/imputed.{ref}.{chrom}.vcf.gz",
