@@ -80,7 +80,7 @@ rule split_reference:
             mv {params.glimpse_output} {output.binary_ref}
         '''
 
-# we don't need the genetic map because it's written into the binary reference file
+# we don't need the genetic map because it's written into the binary reference file, same for input/output regions
 rule impute_chunk:
     input:
         binary_ref = "results/glimpse/{ref}/{chrom}/split/binary_ref.{ref}.{chrom}.{chunk_id}.bin",
@@ -101,17 +101,15 @@ rule impute_chunk:
             GLIMPSE2_phase \
                 --input-gl {input.target_vcf} \
                 --reference {input.binary_ref} \
-                --input-region {params.input_region} \
-                --output-region {params.output_region} \
                 --impute-reference-only-variants \
                 --threads {threads} \
                 --output {output.imputed_chunk}
-            bcftools index {output.imputed_chunk}
         '''
 
 rule ligate_single_chrom:
     input:
         imputed_chunks = lambda wildcards: expand("results/glimpse/{ref}/{chrom}/imputed/imputed.{ref}.{chrom}.{chunk_id}.bcf", ref=wildcards.ref, chrom=wildcards.chrom, chunk_id=get_chunk_ids(wildcards))
+        imputed_chunk_index = lambda wildcards: expand("results/glimpse/{ref}/{chrom}/imputed/imputed.{ref}.{chrom}.{chunk_id}.bcf.csi", ref=wildcards.ref, chrom=wildcards.chrom, chunk_id=get_chunk_ids(wildcards))
     output:
         ligated = "results/glimpse/{ref}/{chrom}/imputed.{ref}.{chrom}.vcf.gz",
         chunk_list = temp("results/glimpse/{ref}/{chrom}/imputed_chunk_list.{ref}.{chrom}.txt")
@@ -126,7 +124,6 @@ rule ligate_single_chrom:
                 --input {output.chunk_list} \
                 --output {output.ligated} \
                 --threads {threads}
-            tabix {output.ligated}
         '''
 
 rule filter_glimpse_chroms:
@@ -155,7 +152,7 @@ rule concat_unfiltered:
     threads: 8
     resources:
         time = 1440,
-        mem_mb = 64000
+        mem_mb = 8000
     shell:
         '''
             printf '%s\n' {input.imputed_chroms} > {output.file_list}
@@ -175,7 +172,7 @@ rule concat_filtered:
     threads: 8
     resources:
         time = 1440,
-        mem_mb = 64000
+        mem_mb = 8000
     shell:
         '''
             printf '%s\n' {input.filtered_chroms} > {output.file_list}

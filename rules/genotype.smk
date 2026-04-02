@@ -18,7 +18,7 @@ rule pile_dogs:
                 -b {input.bam_list} \
                 -r {wildcards.chrom} \
             | bcftools call -Oz -mv \
-            | bcftools filter -s LowQual -e '%QUAL<20' > {output.lowpass_vcf}
+            | bcftools filter -s LowQual -e 'QUAL<20' > {output.lowpass_vcf}
         '''
 
 rule zip_and_index:
