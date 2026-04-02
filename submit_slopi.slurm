@@ -1,24 +1,25 @@
 #!/bin/bash -l
-#SBATCH -t 48:00:00
+#SBATCH -t 72:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=6gb
 #SBATCH --mail-type=ALL  
-#SBATCH --mail-user=cull0084@umn.edu 
+#SBATCH --mail-user=
 #SBATCH --job-name jg_snake
 #SBATCH -o ./Jobs/%j.pile_gsnake.out
 #SBATCH -e ./Jobs/%j.pile_gsnake.err
-#SBATCH -p amdsmall,amdlarge,amd512,small,large,ram256g
+#SBATCH -p 
 
 set -e
+source ~/.bashrc
 
 conda activate snakemake
 cd $SLURM_SUBMIT_DIR
 
-BAM_DIR=/scratch.global/friedlab_LOW_PILEUP
-PHASED_POP=/panfs/jay/groups/0/fried255/fried255/working/pipeline
-SUB_POP=/panfs/jay/groups/0/fried255/shared/gatk4_workflow/LowPass
+BAM_DIR=/path/to/bam/directory
+PHASED_POP=/path/to/reference_panel/directory
+SUB_POP=/path/to/auxillary/directory/
 
 snakemake -s slopi_snake.smk \
     --use-singularity \

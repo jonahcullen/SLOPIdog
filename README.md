@@ -1,12 +1,10 @@
 # SLOPIdog
 
-Usage instructions TBD
-
 **Download the container**
 
-Due to the size of the included canine reference genomes and index files (and depending on your internet speed) this should take <2 minutes.
+Due to the size of the included canine reference genomes and index files (and depending on your internet speed) this may take some time.
 
 ```
-wget https://s3.msi.umn.edu/slopi/sif/slopi.sif
+singularity pull docker://hexive/slopi:2.0
 ```
 

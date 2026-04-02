@@ -1,18 +1,12 @@
 date: 20240101
 sif: /path/to/slopi.sif
 refs: cf4
-# this file should contain the absolute paths to the bams/crams
-# to be used for imputation
+# this file should contain the absolute paths to the bams/crams to be used for imputation
 bam_list: /path/to/bams.list
 
-# logic for glimpse does not consider breed as of now
-breeds:
-  - all
-#  - belgians
-#  - gshp
-#  - gtdn
-#  - stpd_pwdg
-#  - wssp
+# canfan4 link map in container, if not using cf4, add your own link map here accessible in the container
+link_map: 
+  cf4: /home/refgen/dog/canfam4/canFam4.linkage.map
 
 refgen:
   cf4:
@@ -20,11 +14,43 @@ refgen:
     fasta: /home/refgen/dog/canfam4/canFam4.fa
     # phased reference for imputation
     phased_pop: /path/to/phased.vcf
-
-# where is this even used ever?
-phased:
-  cf4: /path/to/phased_snps_ref.vcf.gz
-
-# canfan4 link map in container
-link_map: 
-  cf4: /home/refgen/dog/canfam4/canFam4.linkage.map
+    chroms:
+      - chr1
+      - chr2
+      - chr3
+      - chr4
+      - chr5
+      - chr6
+      - chr7
+      - chr8
+      - chr9
+      - chr10
+      - chr11
+      - chr12
+      - chr13
+      - chr14
+      - chr15
+      - chr16
+      - chr17
+      - chr18
+      - chr19
+      - chr20
+      - chr21
+      - chr22
+      - chr23
+      - chr24
+      - chr25
+      - chr26
+      - chr27
+      - chr28
+      - chr29
+      - chr30
+      - chr31
+      - chr32
+      - chr33
+      - chr34
+      - chr35
+      - chr36
+      - chr37
+      - chr38
+      - chrX
