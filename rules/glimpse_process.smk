@@ -48,7 +48,11 @@ checkpoint chunk_reference:
                 --buffer-mb 0.5 \
                 --threads {threads} \
                 --sequential \
-                --output {output.chunked_chrom}
+                --output {output.chunked_chrom}.raw.tsv
+            python scripts/fix_chunk_triple_overlap.py \
+                -i {output.chunked_chrom}.raw.tsv \
+                -o {output.chunked_chrom}
+            rm {output.chunked_chrom}.raw.tsv
         '''
 
 # we have to do a lot of funky magic here, getting the name that will actually be output and renaming it to something sensible, so that later rules can just use the chunk id
@@ -84,23 +88,29 @@ rule split_reference:
 rule impute_chunk:
     input:
         binary_ref = "results/glimpse/{ref}/{chrom}/split/binary_ref.{ref}.{chrom}.{chunk_id}.bin",
-        target_vcf = "results/{ref}/target/all/{chrom}/all.snps.{chrom}.{ref}.vcf.gz",
-        target_vcf_index = "results/{ref}/target/all/{chrom}/all.snps.{chrom}.{ref}.vcf.gz.tbi"
+        bam_list = config['bam_list']
     output:
         imputed_chunk = temp("results/glimpse/{ref}/{chrom}/imputed/imputed.{ref}.{chrom}.{chunk_id}.bcf"),
         imputed_chunk_index = temp("results/glimpse/{ref}/{chrom}/imputed/imputed.{ref}.{chrom}.{chunk_id}.bcf.csi")
     params:
         input_region = lambda wildcards: parse_chunks(f"results/glimpse/{wildcards.ref}/{wildcards.chrom}/chunks.{wildcards.ref}.{wildcards.chrom}.tsv")[wildcards.chunk_id][0],
         output_region = lambda wildcards: parse_chunks(f"results/glimpse/{wildcards.ref}/{wildcards.chrom}/chunks.{wildcards.ref}.{wildcards.chrom}.tsv")[wildcards.chunk_id][1],
-    threads: 8
+        ref_fa = lambda wildcards, input: config['refgen'][wildcards.ref]['fasta']
+    threads: 16
     resources:
-        time = 240,
+<<<<<<< HEAD
+        time = 480,
         mem_mb = 32000
+=======
+        time = 600,
+        mem_mb = 48000
+>>>>>>> bae7fbababf28434a5c479ad66ee6c6dd023c3e0
     shell:
         '''
             GLIMPSE2_phase \
-                --input-gl {input.target_vcf} \
+                --bam-list {input.bam_list} \
                 --reference {input.binary_ref} \
+                --fasta {params.ref_fa} \
                 --impute-reference-only-variants \
                 --threads {threads} \
                 --output {output.imputed_chunk}

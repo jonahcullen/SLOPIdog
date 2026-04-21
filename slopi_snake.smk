@@ -11,5 +11,4 @@ rule all:
             ref = config['refs'],
             stage = ["unfiltered", "filtered"])
 
-include: "rules/genotype.smk"
 include: "rules/glimpse_process.smk"
