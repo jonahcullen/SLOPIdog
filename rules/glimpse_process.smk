@@ -48,7 +48,11 @@ checkpoint chunk_reference:
                 --buffer-mb 0.5 \
                 --threads {threads} \
                 --sequential \
-                --output {output.chunked_chrom}
+                --output {output.chunked_chrom}.raw.tsv
+            python scripts/fix_chunk_triple_overlap.py \
+                -i {output.chunked_chrom}.raw.tsv \
+                -o {output.chunked_chrom}
+            rm {output.chunked_chrom}.raw.tsv
         '''
 
 # we have to do a lot of funky magic here, getting the name that will actually be output and renaming it to something sensible, so that later rules can just use the chunk id
@@ -94,7 +98,7 @@ rule impute_chunk:
         ref_fa = lambda wildcards, input: config['refgen'][wildcards.ref]['fasta']
     threads: 8
     resources:
-        time = 240,
+        time = 480,
         mem_mb = 32000
     shell:
         '''
