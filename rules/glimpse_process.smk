@@ -96,10 +96,15 @@ rule impute_chunk:
         input_region = lambda wildcards: parse_chunks(f"results/glimpse/{wildcards.ref}/{wildcards.chrom}/chunks.{wildcards.ref}.{wildcards.chrom}.tsv")[wildcards.chunk_id][0],
         output_region = lambda wildcards: parse_chunks(f"results/glimpse/{wildcards.ref}/{wildcards.chrom}/chunks.{wildcards.ref}.{wildcards.chrom}.tsv")[wildcards.chunk_id][1],
         ref_fa = lambda wildcards, input: config['refgen'][wildcards.ref]['fasta']
-    threads: 8
+    threads: 16
     resources:
+<<<<<<< HEAD
         time = 480,
         mem_mb = 32000
+=======
+        time = 600,
+        mem_mb = 48000
+>>>>>>> bae7fbababf28434a5c479ad66ee6c6dd023c3e0
     shell:
         '''
             GLIMPSE2_phase \
