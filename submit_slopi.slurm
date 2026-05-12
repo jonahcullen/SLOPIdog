@@ -19,11 +19,10 @@ cd $SLURM_SUBMIT_DIR
 
 BAM_DIR=/path/to/bam/directory
 PHASED_POP=/path/to/reference_panel/directory
-SUB_POP=/path/to/auxillary/directory/
 
 snakemake -s slopi_snake.smk \
     --use-singularity \
-    --singularity-args "-B $PWD,$BAM_DIR,$PHASED_POP,$SUB_POP" \
+    --singularity-args "-B $PWD,$BAM_DIR,$PHASED_POP" \
     --profile slurm.go_wags/ \
     --configfile config.yaml \
     --rerun-triggers mtime \
