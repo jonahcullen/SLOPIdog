@@ -98,7 +98,7 @@ rule impute_chunk:
         ref_fa = lambda wildcards, input: config['refgen'][wildcards.ref]['fasta']
     threads: 16
     resources:
-        time = 720,
+        time = 1440,
         mem_mb = 128000
     shell:
         '''
@@ -120,8 +120,8 @@ rule ligate_single_chrom:
         chunk_list = temp("results/glimpse/{ref}/{chrom}/imputed_chunk_list.{ref}.{chrom}.txt")
     threads: 4
     resources:
-        time = 240,
-        mem_mb = 32000
+        time = 1440,
+        mem_mb = 64000
     shell:
         '''
             printf '%s\n' {input.imputed_chunks} > {output.chunk_list}
